@@ -3,8 +3,8 @@ import sys, datetime, requests, os, json
 GEMINI_API_KEY     = os.environ["GEMINI_API_KEY"]
 TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 TELEGRAM_CHAT_ID   = os.environ["TELEGRAM_CHAT_ID"]
-GITHUB_TOKEN       = os.environ["GITHUB_TOKEN"]
-GITHUB_REPO        = os.environ["GITHUB_REPO"]
+GITHUB_TOKEN = os.environ["GH_TOKEN"]
+GITHUB_REPO  = os.environ["GH_REPO"]
 
 HOLDINGS = 13775
 ENTRY    = 1.31
