@@ -61,7 +61,9 @@ def get_xrp_data():
         raise Exception(f"Gemini error {resp.status_code}: {resp.text[:300]}")
     text = resp.json()["candidates"][0]["content"]["parts"][0]["text"]
     text = text.replace("```json", "").replace("```", "").strip()
-    return json.loads(text)
+    start = text.find("{")
+    end = text.rfind("}") + 1
+    return json.loads(text[start:end])
 
 
 def build_html(d, today):
