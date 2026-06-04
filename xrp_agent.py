@@ -64,7 +64,7 @@ def send_telegram(message, today):
         resp = requests.post(url, json={
             "chat_id": TELEGRAM_CHAT_ID,
             "text": chunk,
-            "parse_mode": "Markdown",
+           
             "disable_web_page_preview": True
         }, timeout=15)
         if not resp.ok:
