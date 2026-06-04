@@ -2,7 +2,7 @@ name: XRP Daily Briefing
 
 on:
   schedule:
-    - cron: '52 19 * * *'
+    - cron: '00 05 * * *'
   workflow_dispatch:
 
 jobs:
