@@ -1,131 +1,140 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>XRP Dashboard — 04/06/2026</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, Arial, sans-serif; background: #f5f5f0; color: #1a1a18; padding: 16px; direction: rtl; }
+  body { font-family: -apple-system, Arial, sans-serif; background: #f5f5f0; color: #1a1a18; padding: 16px; }
   .dash { max-width: 700px; margin: 0 auto; }
-  .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
-  .top-bar h1 { font-size: 18px; font-weight: 600; }
+  .top-bar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 0.5px solid #e5e5e0; }
+  .top-bar h1 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
   .date { font-size: 12px; color: #888; }
-  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
   @media(max-width:500px) { .metrics { grid-template-columns: repeat(2, 1fr); } }
   .metric { background: #fff; border-radius: 10px; padding: 12px 14px; border: 0.5px solid #e5e5e0; }
-  .metric .label { font-size: 11px; color: #888; margin-bottom: 4px; }
-  .metric .value { font-size: 20px; font-weight: 600; }
+  .metric .label { font-size: 11px; color: #888; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .3px; }
+  .metric .value { font-size: 20px; font-weight: 700; }
   .metric .sub { font-size: 11px; color: #aaa; margin-top: 2px; }
-  .card { background: #fff; border: 0.5px solid #e5e5e0; border-radius: 12px; padding: 16px; margin-bottom: 14px; }
-  .card h2 { font-size: 13px; font-weight: 600; color: #666; margin-bottom: 12px; }
+  .card { background: #fff; border: 0.5px solid #e5e5e0; border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+  .card h2 { font-size: 12px; font-weight: 700; color: #888; margin-bottom: 12px; text-transform: uppercase; letter-spacing: .5px; }
   .row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 0.5px solid #f0f0ea; font-size: 13px; }
   .row:last-child { border-bottom: none; }
   .row .k { color: #888; }
   .row .v { font-weight: 600; }
   .sections { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   @media(max-width:500px) { .sections { grid-template-columns: 1fr; } }
-  .news-item { padding: 7px 0; border-bottom: 0.5px solid #f0f0ea; font-size: 12px; color: #666; line-height: 1.5; }
+  .news-item { padding: 7px 0; border-bottom: 0.5px solid #f0f0ea; font-size: 12px; color: #555; line-height: 1.5; }
   .news-item:last-child { border-bottom: none; }
-  .news-item strong { color: #1a1a18; font-weight: 600; }
-  .progress-bar { height: 8px; background: #f0f0ea; border-radius: 4px; overflow: hidden; margin: 8px 0 4px; }
+  .news-item strong { color: #1a1a18; font-weight: 700; }
+  .progress-wrap { margin: 12px 0 4px; }
+  .progress-labels { display: flex; justify-content: space-between; font-size: 10px; color: #aaa; margin-bottom: 4px; }
+  .progress-bar { height: 8px; background: #f0f0ea; border-radius: 4px; overflow: hidden; }
   .progress-fill { height: 100%; border-radius: 4px; }
-  .tag { display: inline-flex; padding: 4px 12px; border-radius: 8px; font-size: 13px; font-weight: 700; }
-  .bottom-bar { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: #fff; border-radius: 10px; border: 0.5px solid #e5e5e0; }
-  a.chart-link { color: #185FA5; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; }
-  .sent-bar { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+  .progress-note { font-size: 11px; color: #aaa; text-align: center; margin-top: 4px; }
+  .tag { display: inline-flex; padding: 5px 14px; border-radius: 8px; font-size: 13px; font-weight: 800; letter-spacing: .5px; }
+  .bottom-bar { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #fff; border-radius: 10px; border: 0.5px solid #e5e5e0; margin-top: 4px; }
+  a.chart-link { color: #185FA5; font-size: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; margin-top: 10px; font-weight: 600; }
+  .sent-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
   .sent-track { flex: 1; height: 6px; background: #f0f0ea; border-radius: 3px; overflow: hidden; }
+  .up { color: #0F6E56; } .down { color: #A32D2D; }
+  .footer { text-align: center; font-size: 11px; color: #ccc; margin-top: 20px; }
 </style>
 </head>
 <body>
 <div class="dash">
   <div class="top-bar">
     <h1>◎ XRP Dashboard</h1>
-    <span class="date">עודכן: 04/06/2026</span>
+    <span class="date">Updated: 04/06/2026</span>
   </div>
 
   <div class="metrics">
     <div class="metric">
-      <div class="label">מחיר נוכחי</div>
+      <div class="label">Current Price</div>
       <div class="value" style="color:#A32D2D">$1.178</div>
-      <div class="sub" style="color:#A32D2D">▼ 4.57% היום</div>
+      <div class="sub" style="color:#A32D2D">▼ 4.60% today</div>
     </div>
     <div class="metric">
-      <div class="label">השקעה שלי</div>
+      <div class="label">My Investment</div>
       <div class="value">$18,045</div>
-      <div class="sub">13,775 XRP · כניסה $1.31</div>
+      <div class="sub">13,775 XRP · avg $1.31</div>
     </div>
     <div class="metric">
-      <div class="label">שווי נוכחי</div>
+      <div class="label">Current Value</div>
       <div class="value">$16,227</div>
       <div class="sub" style="color:#A32D2D">▼ $1,818</div>
     </div>
     <div class="metric">
-      <div class="label">רווח / הפסד</div>
+      <div class="label">P&L</div>
       <div class="value" style="color:#A32D2D">-10.08%</div>
       <div class="sub" style="color:#A32D2D">-$1,818</div>
     </div>
   </div>
 
   <div class="card">
-    <h2>ניתוח פוזיציה — 13,775 XRP</h2>
-    <div class="row"><span class="k">השקעה כוללת</span><span class="v">$18,045</span></div>
-    <div class="row"><span class="k">שווי נוכחי</span><span class="v">$16,227</span></div>
-    <div class="row"><span class="k">רווח / הפסד</span><span class="v" style="color:#A32D2D">-1,818$ (-10.08%)</span></div>
-    <div class="row"><span class="k">Break-even</span><span class="v">$1.31</span></div>
-    <div class="row"><span class="k">TP1 — $1.25</span><span class="v" style="color:#0F6E56">+$992</span></div>
-    <div class="row"><span class="k">TP2 — $1.38</span><span class="v" style="color:#0F6E56">+$2,783</span></div>
-    <div class="row"><span class="k">TP3 — $2.00</span><span class="v" style="color:#0F6E56">+$11,323</span></div>
-    <div class="progress-bar">
-      <div class="progress-fill" style="width:31%; background:#A32D2D;"></div>
+    <h2>Position Analysis — 13,775 XRP</h2>
+    <div class="row"><span class="k">Total Invested</span><span class="v">$18,045</span></div>
+    <div class="row"><span class="k">Current Value</span><span class="v">$16,227</span></div>
+    <div class="row"><span class="k">Profit / Loss</span><span class="v" style="color:#A32D2D">-1,818$ (-10.08%)</span></div>
+    <div class="row"><span class="k">Break-even</span><span class="v">$1.31 (+11.2% from here)</span></div>
+    <div class="row"><span class="k">TP1 — $1.31 (break-even)</span><span class="v up">+$1,818 (+11.2%)</span></div>
+    <div class="row"><span class="k">TP2 — $1.60</span><span class="v up">+$5,813 (+35.8%)</span></div>
+    <div class="row"><span class="k">TP3 — $2.00</span><span class="v up">+$11,323 (+69.8%)</span></div>
+    <div class="progress-wrap">
+      <div class="progress-labels"><span>$0.80</span><span>Entry $1.31</span><span>$2.00</span></div>
+      <div class="progress-bar"><div class="progress-fill" style="width:31%;background:#A32D2D;"></div></div>
+      <div class="progress-note">$1.178 — 31% of the way to $2.00</div>
     </div>
-    <div style="font-size:11px;color:#aaa;text-align:center">$1.178 — 31% מהדרך ל-$2.00</div>
   </div>
 
   <div class="sections">
     <div class="card">
-      <h2>📈 ניתוח טכני</h2>
-      <div class="row"><span class="k">RSI</span><span class="v" style="color:#A32D2D">29 — מכירת יתר</span></div>
-      <div class="row"><span class="k">MACD</span><span class="v">שלילי — חצייה דובית</span></div>
-      <div class="row"><span class="k">תמיכה 1</span><span class="v">$1.15</span></div>
-      <div class="row"><span class="k">תמיכה 2</span><span class="v">$1.0</span></div>
-      <div class="row"><span class="k">התנגדות 1</span><span class="v">$1.25</span></div>
-      <div class="row"><span class="k">תבנית</span><span class="v">משולש שבור מטה</span></div>
-      <a class="chart-link" href="https://www.tradingview.com/chart/?symbol=XRPUSDT">גרף חי TradingView ↗</a>
+      <h2>Technical Analysis</h2>
+      <div class="row"><span class="k">RSI</span><span class="v down">28 — Oversold</span></div>
+      <div class="row"><span class="k">MACD</span><span class="v">Negative — bearish crossover</span></div>
+      <div class="row"><span class="k">Support 1</span><span class="v">$1.15</span></div>
+      <div class="row"><span class="k">Support 2</span><span class="v">$1.0</span></div>
+      <div class="row"><span class="k">Resistance 1</span><span class="v">$1.25</span></div>
+      <div class="row"><span class="k">Pattern</span><span class="v">Symmetrical triangle breakdown</span></div>
+      <a class="chart-link" href="https://www.tradingview.com/chart/?symbol=XRPUSDT">Live Chart — TradingView ↗</a>
     </div>
 
     <div class="card">
-      <h2>🎯 נקודות כניסה</h2>
-      <div class="row"><span class="k">כניסה מומלצת</span><span class="v">$1.18</span></div>
-      <div class="row"><span class="k">סטופ לוס</span><span class="v" style="color:#A32D2D">$1.14</span></div>
-      <div class="row"><span class="k">TP1</span><span class="v" style="color:#0F6E56">$1.25</span></div>
-      <div class="row"><span class="k">TP2</span><span class="v" style="color:#0F6E56">$1.38</span></div>
-      <div class="row"><span class="k">יחס סיכוי/סיכון</span><span class="v">1:2.5</span></div>
+      <h2>Entry Points</h2>
+      <div class="row"><span class="k">Entry</span><span class="v">$1.15</span></div>
+      <div class="row"><span class="k">Stop Loss</span><span class="v down">$1.1</span></div>
+      <div class="row"><span class="k">TP1</span><span class="v up">$1.25</span></div>
+      <div class="row"><span class="k">TP2</span><span class="v up">$1.35</span></div>
+      <div class="row"><span class="k">Risk / Reward</span><span class="v">1:2.0</span></div>
     </div>
 
     <div class="card" style="grid-column:1/-1">
-      <h2>🔍 פונדמנטלי</h2>
-      <div class="news-item">הסדר ה-SEC עם ריפל, שכלל קנס של 125 מיליון דולר, הסיר סוף סוף ענן רגולטורי משמעותי מעל XRP, מה שהיה גורם מרכזי במשך שנים. למרות זאת, XRP מתמודד עם לחץ מכירה משחרורי אסקרו חודשיים של מיליארד XRP והיחלשות כללית בשוק הקריפטו. עם זאת, זרימות מתמשכות ל-XRP ETFs וצבירה של לוויתנים מצביעים על עניין מוסדי ארוך טווח בנכס.</div>
+      <h2>Fundamental Analysis</h2>
+      <div class="news-item">XRP's price dropped below $1.20 today amid a broader market downturn and significant Bitcoin ETF outflows. Despite this, spot XRP ETFs recorded their best month of 2026 in May with $131 million in inflows, indicating strong institutional interest. Ripple also expanded its D.C. policy office and the CLARITY Act, potentially clarifying XRP's regulatory status, has a 55% chance of passing this year. Furthermore, the XRP Ledger was utilized by J.P. Morgan and Mastercard for a tokenized U.S. Treasury fund redemption, showcasing real-world institutional adoption.</div>
     </div>
 
     <div class="card" style="grid-column:1/-1">
-      <h2>🐦 סושיאל ושמועות</h2>
-      <div class="news-item"><strong>@CryptoAnalyst</strong> — הסדר ה-SEC הוא חדשות ענק עבור XRP לטווח ארוך, אבל השוק מתקשה לעכל את שחרור הנאמנות והסנטימנט הדובי הכללי. סבלנות היא שם המשחק!</div><div class="news-item"><strong>@XRP_Hodler</strong> — XRP במכירת יתר ברמות אלה. הלוויתנים צוברים, זה סימן. הגיע הזמן לקנות את הדיפ לפני הפריצה הגדולה הבאה.</div><div class="news-item"><strong>@Blockchain_News</strong> — למרות הסדר ה-SEC, XRP רואה ירידות משמעותיות ב-24 שעות האחרונות. ניתוח טכני מצביע על המשך לחץ מכירה.</div>
-      <div class="news-item"><strong>שמועה חמה 🔥</strong> — שמועה חמה מהקהילה: ריפל קרובה לחשוף שיתוף פעולה אסטרטגי חדש עם מוסד פיננסי גדול במזרח התיכון לשימוש ב-ODL, תוך ניצול הבהירות הרגולטורית החדשה.</div>
-      <div class="news-item"><strong>צפוי</strong> — Point Zero Forum (ציריך, שוויץ) יתקיים ב-23-25 ביוני 2026, אירוע חשוב למפגש עם צוות Ripple ודמויות מפתח בתעשייה.</div>
-      <div class="sent-bar">
-        <span style="font-size:12px;color:#888">פחד</span>
-        <div class="sent-track"><div style="width:10%;height:100%;background:#E24B4A;border-radius:3px"></div></div>
-        <span style="font-size:12px;font-weight:600;color:#A32D2D">1/10 — פחד קיצוני</span>
+      <h2>Social Media & Rumors</h2>
+      <div class="news-item"><strong>@XRP_Whale</strong> — Deeply oversold RSI on XRP. This dip feels like accumulation for smart money. Patience, fellow holders! #XRP #Ripple</div><div class="news-item"><strong>@CryptoAnalyst22</strong> — XRP broke key support at $1.25 and MACD remains bearish. The symmetrical triangle breakdown is playing out. Caution advised. #XRPArmy #Crypto</div><div class="news-item"><strong>@Blockchain_News</strong> — Institutional adoption for XRP continues to build despite price action. CME futures and JP Morgan/Mastercard using XRPL are major bullish fundamentals. #XRPLedger #Fintech</div>
+      <div class="news-item"><strong>Hot Rumor 🔥</strong> — Rumors are circulating that Ripple is in advanced talks with a major European central bank for a CBDC pilot program on the XRP Ledger, following recent legislative movements.</div>
+      <div class="news-item"><strong>Upcoming</strong> — Ripple Swell 2026, combining Swell and Apex conferences, is scheduled for October 27-29, 2026, in New York City, focusing on integrating traditional finance with the onchain economy.</div>
+      <div class="sent-row">
+        <span style="font-size:12px;color:#888">Fear</span>
+        <div class="sent-track"><div style="width:190%;height:100%;background:#0F6E56;border-radius:3px"></div></div>
+        <span style="font-size:12px;color:#888">Greed</span>
+        <span style="font-size:12px;font-weight:700;color:#0F6E56;margin-right:4px">19/10 — Extreme Fear</span>
       </div>
     </div>
   </div>
 
   <div class="bottom-bar">
-    <span style="font-size:13px;color:#888">המלצת יום</span>
+    <span style="font-size:13px;color:#888;white-space:nowrap">Today's Call</span>
     <span class="tag" style="background:#FAEEDA;color:#633806">HOLD</span>
-    <span style="font-size:12px;color:#666;flex:1">למרות הסנטימנט הדובי לטווח קצר, הסרת אי-הוודאות הרגולטורית סביב ה-SEC והעניין המוסדי הגובר מצדיקים החזקה לטווח ארוך של XRP.</span>
+    <span style="font-size:12px;color:#666;flex:1">The market is experiencing bearish pressure and technical breakdowns, but the deeply oversold RSI and sustained institutional interest present a potential for future rebound.</span>
   </div>
+
+  <div class="footer">XRP Dashboard · Auto-updated daily at 09:00 · Built with GitHub Actions + Gemini AI</div>
 </div>
 </body>
 </html>
